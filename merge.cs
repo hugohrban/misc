@@ -1,4 +1,6 @@
-﻿using System;
+// Takes two input text files that contain list of numbers. Outputs a new text file containing the two lists merged in ascending order
+
+using System;
 using System.IO;
 
 namespace slevani_souboru
