@@ -1,79 +1,58 @@
-﻿using System;
-using System.Collections.Generic;
+//outputs longest subsequence that is a palindrome from a given string
+
+using System;
 
 namespace palindrom
 {
     class Program
     {
-        static Dictionary<string, int> checkedWords = new();
-
-        static bool IsPalindrome(string word)
+        public static string Best(string word)
         {
-            if (word.Length == 1 || word.Length == 0)
-                return true;
+            int[,] best = new int[word.Length + 1, word.Length];
+            string[,] bestPal = new string[word.Length + 1, word.Length];
 
-            if (word[0] == word[^1])
-                return IsPalindrome(word[1..^1]);
-
-            return false;
-        }
-
-
-        static bool AllLettersUnique(string word)
-        {
-            HashSet<char> letters = new();
-            foreach (char c in word)
+            for (int i = 0; i < word.Length; i++)
             {
-                if (letters.Contains(c))
-                    return false;
-                letters.Add(c);
+                best[0, i] = 0;
+                best[1, i] = 1;
+                bestPal[0, i] = "";
+                bestPal[1, i] = word[i].ToString();
             }
-            return true;
-        }
 
-
-        static int CheckWord(string word, int loc_max = 0)
-        {
-            if (word.Length == 0)
-                return loc_max;
-
-            if (AllLettersUnique(word))
-                return loc_max + 1;
-
-            char first = word[0];
-
-            if (!word[1..].Contains(first))
-                return CheckWord(word[1..], loc_max);
-
-            for (int i = word.Length - 1; i > 0; i--)
+            for (int len = 2; len <= word.Length; len++)
             {
-                int val;
-                if (word[i] == first)
+                for (int start = 0; start <= word.Length - len; start++)
                 {
-                    if (checkedWords.ContainsKey(word[1..]))
-                        val = checkedWords[word[1..]];
+                    int end = start + len - 1;
+                    if (word[start] == word[end])
+                    {
+                        best[len, start] = best[len - 2, start + 1] + 2;
+                        bestPal[len, start] = word[start].ToString() + bestPal[len - 2, start + 1] + word[end].ToString();
+                    }
                     else
                     {
-                        val = CheckWord(word[1..], loc_max);
-                        checkedWords.Add(word[1..], val);
+                        best[len, start] = Math.Max(best[len - 1, start], best[len - 1, start + 1]);
+                        //(best[len - 1, start] < best[len - 1, start + 1]) ? bestPal[len, start] = bestPal[len - 1, start + 1] : bestPal[len, start] = bestPal[len - 1, start];
+
+                        if (best[len - 1, start] < best[len - 1, start + 1])
+                        {
+                            bestPal[len, start] = bestPal[len - 1, start + 1];
+                        }
+                        else
+                        {
+                            bestPal[len, start] = bestPal[len - 1, start];
+                        }
                     }
-                return Math.Max(CheckWord(word[1..i], loc_max + 2), val);
                 }
             }
-
-            return loc_max;
+            return bestPal[word.Length, 0];
         }
-
 
         static void Main(string[] args)
         {
             string input = Console.ReadLine();
-            int max = 0;
-
-            for (int i = 0; i < input.Length; i++)
-                max = Math.Max(max, CheckWord(input[i..]));
-            
-            Console.WriteLine(max);
+            var output = Best(input);
+            Console.WriteLine($"{output.Length} {output}");
         }
     }
 }

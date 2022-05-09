@@ -1,4 +1,6 @@
-﻿using System;
+// outputs names of all declared classes in given C# source code
+
+using System;
 using System.Collections.Generic;
 
 namespace vypis_trid
