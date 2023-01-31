@@ -264,7 +264,7 @@ Jsou seřazeny podle tématu.
 2. [Třídy](#Třídy)
 3. [Interfacy](#Interfacy)
 4. [Lambda výrazy](#Lambda%20výrazy)
-5. [Hodnoty proměnných](#Hodnoty%20proměnných)
+5. [Hodnoty proměnných](#Hodnoty&#32;proměnných)
 6. [Triky](#Triky)
 7. [Základní znalosti](#Základní%20znalosti)
 8. [Výjimky](#Výjimky)
