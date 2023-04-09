@@ -2,7 +2,6 @@ import datetime as dt
 import matplotlib.pyplot as plt
 import numpy as np
 
-
 def parse_line(line: str, year: int) -> tuple[dt.date, float]:
     # format "dd.mm-weight"
     line = line.lower().replace("ba", "").replace(" ", "").replace("✅", "")
